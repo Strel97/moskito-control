@@ -6,11 +6,11 @@ export class EnumUtil {
   }
 
   static getNames(e: any) {
-    return EnumUtil.getObjValues(e).filter(v => typeof v === "string") as string[];
+    return EnumUtil.getObjValues(e).filter(v => typeof v === 'string') as string[];
   }
 
   static getValues<T extends number>(e: any) {
-    return EnumUtil.getObjValues(e).filter(v => typeof v === "number") as T[];
+    return EnumUtil.getObjValues(e).filter(v => typeof v === 'number') as T[];
   }
 
   private static getObjValues(e: any): (number | string)[] {

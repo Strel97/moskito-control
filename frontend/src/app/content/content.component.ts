@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { HttpService } from "../services/http.service";
-import { MoskitoApplicationService } from "../services/moskito-application.service";
-import { TimerComponent } from "../shared/timer/timer.component";
-import { MoskitoApplication } from "../entities/moskito-application";
-import { CategoriesService } from "../services/categories.service";
-import { WidgetService } from "../services/widget.service";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MoskitoApplication } from 'app/shared/models/moskito-application';
+import { CategoriesService } from 'app/shared/services/categories.service';
+import { HttpService } from 'app/shared/services/http.service';
+import { MoskitoApplicationService } from 'app/shared/services/moskito-application.service';
+import { WidgetService } from 'app/shared/services/widget.service';
+import { TimerComponent } from 'app/shared/timer/timer.component';
+
+import 'rxjs/add/operator/switchMap';
 
 
 /**
@@ -14,7 +16,7 @@ import { WidgetService } from "../services/widget.service";
  * @author strel
  */
 @Component({
-  selector: 'content',
+  selector: 'app-content',
   templateUrl: './content.component.html'
 })
 export class ContentComponent implements OnInit {
@@ -60,7 +62,7 @@ export class ContentComponent implements OnInit {
     private categoriesService: CategoriesService
   ) {
     this.applicationDataLoaded = false;
-    this.moskitoAnalyzeMode = true;    
+    this.moskitoAnalyzeMode = true;
   }
 
   public ngOnInit(): void {
@@ -92,10 +94,11 @@ export class ContentComponent implements OnInit {
     this.settingsToggle = mode;
 
     // Not
-    if (!mode)
+    if (!mode) {
       this.initTimer();
-    else
+    } else {
       this.timer.pauseTimer();
+    }
   }
 
   public setConfigurationMode(mode: boolean) {

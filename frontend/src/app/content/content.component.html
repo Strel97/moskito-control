@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <app-moskito-control-config [analyzeMode]="moskitoAnalyzeMode"></app-moskito-control-config>
+    <app-configuration-editor [analyzeMode]="moskitoAnalyzeMode"></app-configuration-editor>
   </div>
 
   <!-- Settings Panel -->
@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <settings></settings>
+    <app-configuration-viewer></app-configuration-viewer>
   </div>
 
   <!-- Regular header with applications list -->
@@ -60,10 +60,10 @@
     <div class="infobar">
       <div class="infoline">
         <div class="pull-left">
-          <timer #dataRefreshTimer timeInSeconds="180" [callback]="onDataRefresh"></timer>
+          <app-timer #dataRefreshTimer timeInSeconds="180" [callback]="onDataRefresh"></app-timer>
         </div>
         <div class="pull-right">
-          <notifications-config></notifications-config>
+          <app-notifications-configurator></app-notifications-configurator>
 
           <span class="vline"></span>
 
@@ -79,11 +79,11 @@
     </div>
 
     <div class="box-list" *ngIf="applicationDataLoaded && !moskitoAnalyzeMode">
-      <tv-widget #tvWidget *ngIf="widgetService.isWidgetEnabled('tv')"></tv-widget>
-      <components-widget #componentsWidget *ngIf="widgetService.isWidgetEnabled('status')"></components-widget>
-      <beta-components-widget #betaComponentsWidget *ngIf="widgetService.isWidgetEnabled('statusBeta')"></beta-components-widget>
-      <charts-widget #chartsWidget *ngIf="widgetService.isWidgetEnabled('charts')"></charts-widget>
-      <history-widget #historyWidget *ngIf="widgetService.isWidgetEnabled('history')"></history-widget>
+      <app-tv-widget #tvWidget *ngIf="widgetService.isWidgetEnabled('tv')"></app-tv-widget>
+      <app-components-widget #componentsWidget *ngIf="widgetService.isWidgetEnabled('status')"></app-components-widget>
+      <app-beta-components-widget #betaComponentsWidget *ngIf="widgetService.isWidgetEnabled('statusBeta')"></app-beta-components-widget>
+      <app-charts-widget #chartsWidget *ngIf="widgetService.isWidgetEnabled('charts')"></app-charts-widget>
+      <app-history-widget #historyWidget *ngIf="widgetService.isWidgetEnabled('history')"></app-history-widget>
     </div>
 
     <div class="box-list" *ngIf="moskitoAnalyzeMode">

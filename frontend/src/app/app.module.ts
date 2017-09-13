@@ -1,54 +1,24 @@
-import { MoskitoAnalyzeChartConfigurationModalComponent } from "./moskito-analyze/widgets/moskito-analyze-chart/configuration-modal/ma-chart-configuration-modal.component";
-import { SharedModule } from "./shared/shared.module";
-import { NgModule } from "@angular/core";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { AppComponent } from "./app.component";
-import { ScanColumnNavigationComponent } from "./scan-column-navigation/scan-column-navigation.component";
-import { ConnectComponent } from "./scan-column-navigation/connect.component";
-import { ContentComponent } from "./content/content.component";
-import { CategoriesComponent } from "./scan-column-navigation/categories.component";
-import { WidgetsToggleComponent } from "./scan-column-navigation/widgets-toggle.component";
-import { StatisticsComponent } from "./scan-column-navigation/statistics.component";
-import { TvWidget } from "./widgets/tv-widget.component";
-import { ChartsWidget } from "./widgets/charts-widget.component";
-import { HistoryWidget } from "./widgets/history-widget.component";
-import { MoskitoComponentsWidget } from "./widgets/moskito-components-widget.component";
-import { SettingsComponent } from "./settings/settings.component";
-import { WidgetService } from "./services/widget.service";
-import { HttpService } from "./services/http.service";
-import { MoskitoApplicationService } from "./services/moskito-application.service";
-import { ChartService } from "./services/chart.service";
-import { NotificationsConfigComponent } from "./shared/notifications/notifications-config.component";
-import { KeysPipe } from "./pipes/keys.pipe";
-import { MoskitoBetaComponentsWidget } from "./widgets/moskito-beta-components-widget.component";
-import { CategoriesService } from "./services/categories.service";
-import { StatusService } from "./services/status.service";
-import { ComponentsCategoryFilterPipe } from "./pipes/components-category-filter.pipe";
-import { HistoryCategoryFilterPipe } from "./pipes/history-category-filter.pipe";
-import { ComponentsStatusFilterPipe } from "./pipes/components-status-filter.pipe";
-import { HistoryStatusFilterPipe } from "./pipes/history-status-filter.pipe";
-import { SanitizeHtmlPipe } from "./pipes/sanitarize-html.pipe";
-import { HealthStatusService } from "./services/health-status.service";
-import { Routes, RouterModule } from "@angular/router";
-import { HomeComponent } from "./home/home.component";
-import { ComponentInspectionModalComponent } from "./widgets/modal/component-inspection-modal.component";
-import { MoskitoAnalyzeComponent } from "./moskito-analyze/moskito-analyze.component";
-import { MoskitoAnalyzeRestService } from "./moskito-analyze/services/moskito-analyze-rest.service";
-import { MoskitoAnalyzeChartComponent } from "./moskito-analyze/widgets/moskito-analyze-chart/moskito-analyze-chart.component";
-import { MoskitoAnalyzeService } from "./moskito-analyze/services/moskito-analyze.service";
-import { MoskitoControlConfigComponent } from "./moskito-control-config/moskito-control-config.component";
-import { AceEditorModule } from "ng2-ace-editor";
-import { MultiselectDropdownModule } from "angular-2-dropdown-multiselect";
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AppComponent } from 'app/app.component';
+import { ConfigurationModule } from 'app/configuration/configuration.module';
+import { ConfigurationEditorComponent } from 'app/configuration/edit/configuration-editor.component';
+import { ContentModule } from 'app/content/content.module';
+import { HomeComponent } from 'app/home/home.component';
+import { SharedModule } from 'app/shared/shared.module';
+import { SidebarModule } from 'app/sidebar/sidebar.module';
 
 
-const appRoutes: Routes =[
+const appRoutes: Routes = [
   {
     path: 'beta',
     component: HomeComponent
   },
   {
     path: 'configuration',
-    component: MoskitoControlConfigComponent
+    component: ConfigurationEditorComponent
   },
   {
     path: '',
@@ -57,67 +27,24 @@ const appRoutes: Routes =[
   }
 ];
 
-
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    ScanColumnNavigationComponent,
-    ContentComponent,
-    CategoriesComponent,
-    WidgetsToggleComponent,
-    StatisticsComponent,
-    TvWidget,
-    ChartsWidget,
-    HistoryWidget,
-    MoskitoComponentsWidget,
-    SettingsComponent,
-    NotificationsConfigComponent,
-    ConnectComponent,
-    MoskitoBetaComponentsWidget,
-    ComponentInspectionModalComponent,
-
-    // Pipes
-    KeysPipe,
-    ComponentsCategoryFilterPipe,
-    ComponentsStatusFilterPipe,
-    HistoryCategoryFilterPipe,
-    HistoryStatusFilterPipe,
-    SanitizeHtmlPipe,
-
-    // Analyze
-    MoskitoAnalyzeComponent,
-    MoskitoAnalyzeChartComponent,
-    MoskitoAnalyzeChartConfigurationModalComponent,
-    MoskitoControlConfigComponent
+    HomeComponent
   ],
   imports: [
-    SharedModule,
+    BrowserModule,
+
+    SharedModule.forRoot(),
+    ContentModule,
+    SidebarModule,
+    ConfigurationModule,
 
     // Angular bootstrap module
     NgbModule.forRoot(),
 
-    // Ace code editor
-    AceEditorModule,
-
-    MultiselectDropdownModule,
-
-    // Routes
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [
-    WidgetService,
-    HttpService,
-    HealthStatusService,
-    MoskitoApplicationService,
-    ChartService,
-    CategoriesService,
-    StatusService,
-
-    MoskitoAnalyzeRestService,
-    MoskitoAnalyzeService
-  ],
-  entryComponents: [MoskitoAnalyzeChartConfigurationModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

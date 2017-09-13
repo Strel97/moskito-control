@@ -1,12 +1,12 @@
-import {Component, Input} from '@angular/core';
-import {ITimer} from './itimer';
+import { Component, Input, OnInit } from '@angular/core';
+import { ITimer } from './itimer';
 
 
 @Component({
-  selector: 'timer',
-  templateUrl: 'timer.component.html'
+  selector: 'app-timer',
+  templateUrl: './timer.component.html'
 })
-export class TimerComponent {
+export class TimerComponent implements OnInit {
 
   @Input()
   public timeInSeconds: number;
@@ -30,7 +30,7 @@ export class TimerComponent {
   }
 
   initTimer() {
-    if(!this.timeInSeconds) {
+    if (!this.timeInSeconds) {
       this.timeInSeconds = 0;
     }
 
@@ -70,8 +70,7 @@ export class TimerComponent {
       this.timer.secondsRemaining--;
       if (this.timer.secondsRemaining > 0) {
         this.timerTick();
-      }
-      else {
+      } else {
         this.timer.hasFinished = true;
         this.callback();
         this.restartTimer();

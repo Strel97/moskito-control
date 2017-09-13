@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { HttpService } from "../services/http.service";
-import { MoskitoApplicationService } from "../services/moskito-application.service";
+import { Component, OnInit } from '@angular/core';
+import { HttpService } from 'app/shared/services/http.service';
+import { MoskitoApplicationService } from 'app/shared/services/moskito-application.service';
 
 
 @Component({
-  selector: 'home',
+  selector: 'app-home',
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {

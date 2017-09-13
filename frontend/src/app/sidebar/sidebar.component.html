@@ -1,0 +1,14 @@
+
+
+<div class="left-bar">
+    <a  class="logo">
+        <img src="./assets/img/logo.png" alt="MoSKito Control" border="0"/>
+        <span class="version">{{ version }}</span>
+    </a>
+
+    <div *ngIf = "!configToggle">
+        <app-categories-filter></app-categories-filter>
+        <app-widgets-toggle></app-widgets-toggle>
+        <app-statistics></app-statistics>
+    </div>
+</div>

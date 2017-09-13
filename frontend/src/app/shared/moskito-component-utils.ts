@@ -1,4 +1,4 @@
-import {MoskitoComponent} from "../entities/moskito-component";
+import { MoskitoComponent } from './models/moskito-component';
 
 
 enum Status {
@@ -10,8 +10,8 @@ export class MoskitoComponentUtils {
   static getWorthComponentStatus(components: MoskitoComponent[]): string {
     let worthStatus = Status.GREEN;
 
-    for (let component of components) {
-      let componentStatus = Status[component.color];
+    for (const component of components) {
+      const componentStatus = Status[component.color];
       if (componentStatus < worthStatus) {
         worthStatus = componentStatus;
       }
@@ -23,7 +23,7 @@ export class MoskitoComponentUtils {
   static getWorthStatus(statuses: string[]): string {
     let worthStatus = Status.GREEN;
 
-    for (let status of statuses) {
+    for (const status of statuses) {
       if (Status[status] < worthStatus) {
         worthStatus = Status[status];
       }
@@ -33,9 +33,9 @@ export class MoskitoComponentUtils {
   }
 
   static orderComponentsByCategories(components: MoskitoComponent[]): any {
-    let categories = {};
+    const categories = {};
 
-    for (let component of components) {
+    for (const component of components) {
       if (!categories[component.category]) {
         categories[component.category] = [];
       }
