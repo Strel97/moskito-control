@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MoskitoApplication } from 'app/shared/models/moskito-application';
-import { CategoriesService } from 'app/shared/services/categories.service';
-import { HttpService } from 'app/shared/services/http.service';
-import { MoskitoApplicationService } from 'app/shared/services/moskito-application.service';
-import { WidgetService } from 'app/shared/services/widget.service';
-import { TimerComponent } from 'app/shared/timer/timer.component';
-
-import 'rxjs/add/operator/switchMap';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { MoskitoApplication } from "app/shared/models/moskito-application";
+import { CategoriesService } from "app/shared/services/categories.service";
+import { HttpService } from "app/shared/services/http.service";
+import { MoskitoApplicationService } from "app/shared/services/moskito-application.service";
+import { WidgetService } from "app/shared/services/widget.service";
+import { TimerComponent } from "app/shared/timer/timer.component";
+import "rxjs/add/operator/switchMap";
 
 
 /**
@@ -62,7 +61,7 @@ export class ContentComponent implements OnInit {
     private categoriesService: CategoriesService
   ) {
     this.applicationDataLoaded = false;
-    this.moskitoAnalyzeMode = true;
+    this.moskitoAnalyzeMode = false;
   }
 
   public ngOnInit(): void {
