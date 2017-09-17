@@ -179,9 +179,9 @@
                 </ano:iterate>
             </ul>
 
-            <div class="pull-right">
-                <a class="design-toggle" href="${pageContext.request.contextPath}/beta">Beta</a>
-            </div>
+            <%--<div class="pull-right">--%>
+                <%--<a class="design-toggle" href="${pageContext.request.contextPath}/beta">Beta</a>--%>
+            <%--</div>--%>
         </div>
 
         <div class="infobar">
