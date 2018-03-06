@@ -136,7 +136,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				countByStatusBean.addColor(c.getHealthColor());
 
 				// Filtering components by status color and selected category
-				if (StringUtils.isEmpty(selectedCategory) || selectedCategory.equals(c.getCategory()) || selectedStatusFilter.contains(c.getHealthColor())) {
+				if (componentInCategory(c, selectedCategory) && componentHasStatus(c, selectedStatusFilter)) {
 					filteredComponents.get(c.getCategory()).add(cBean);
 				}
 			}
@@ -200,6 +200,22 @@ public class MainViewAction extends BaseMoSKitoControlAction{
         httpServletRequest.setAttribute("notificationsRemainingMutingTime", remainingTime <= 0 ? "0" : BigDecimal.valueOf((float) remainingTime / 60000).setScale(1, RoundingMode.UP).toString());
 
 		return actionMapping.success();
+	}
+
+	private boolean componentInCategory(Component c, String categoryFilter) {
+		return StringUtils.isEmpty(categoryFilter) || categoryFilter.equals(c.getCategory());
+	}
+
+	private boolean componentHasStatus(Component c, List<HealthColor> colors) {
+		if (colors.isEmpty())
+			return true;
+
+		for (HealthColor color : colors) {
+			if (color.equals(c.getHealthColor()))
+				return true;
+		}
+
+		return false;
 	}
 
 	private static void prepareReferenceLineAndAdoptChart(Chart chart){
