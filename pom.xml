@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>net.anotheria</groupId>
 		<artifactId>parent</artifactId>
-		<version>2.7</version>
+		<version>2.8</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -14,9 +14,8 @@
 	<name>MoSKito Control</name>
 
     <properties>
-        <agent.version>1.2.1-SNAPSHOT</agent.version>
-        <moskito.version>2.8.6-SNAPSHOT</moskito.version>
-		<jersey.version>1.17.1</jersey.version>
+        <agent.version>1.2.2</agent.version>
+        <moskito.version>2.8.6</moskito.version>
     </properties>
 
     <dependencies>
@@ -32,13 +31,13 @@
 		<dependency>
             <groupId>net.anotheria</groupId>
             <artifactId>configureme</artifactId>
-            <version>2.3.0</version>
+            <version>2.3.4</version>
         </dependency>
 
 		<dependency>
 			<groupId>net.anotheria</groupId>
 			<artifactId>ano-tags</artifactId>
-			<version>2.1.0</version>
+			<version>2.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>net.anotheria</groupId>
@@ -75,19 +74,19 @@
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-server</artifactId>
-            <version>${jersey.version}</version>
+            <version>1.17.1</version>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-servlet</artifactId>
-            <version>${jersey.version}</version>
+            <version>1.17.1</version>
         </dependency>
-		<dependency>
+        <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
-            <version>${jersey.version}</version>
+            <version>1.17.1</version>
         </dependency>
-		<dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.2.5</version>
@@ -124,13 +123,13 @@
 		<dependency>
 			<groupId>com.github.seratch</groupId>
 			<artifactId>jslack</artifactId>
-			<version>1.0.8</version>
+			<version>1.0.25</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.opsgenie.integration</groupId>
 			<artifactId>sdk</artifactId>
-			<version>2.6.1</version>
+			<version>2.11.0</version>
 		</dependency>
 
 		<dependency>
@@ -169,7 +168,7 @@
 				<artifactId>maven-war-plugin</artifactId>
                 <version>2.1</version>
 				<configuration>
-                    <warName>moskito-control </warName>
+                    <warName>ROOT</warName>
 					<webResources>
 						<resource>
 							<!-- this is relative to the pom.xml directory -->
@@ -236,7 +235,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>run build</arguments>
+							<arguments>run prod</arguments>
 						</configuration>
 					</execution>
 				</executions>
