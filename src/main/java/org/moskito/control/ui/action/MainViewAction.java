@@ -13,6 +13,7 @@ import org.moskito.control.config.MoskitoControlConfiguration;
 import org.moskito.control.core.Application;
 import org.moskito.control.core.ApplicationRepository;
 import org.moskito.control.core.Component;
+import org.moskito.control.core.HealthColor;
 import org.moskito.control.core.accumulator.AccumulatorDataItem;
 import org.moskito.control.core.chart.Chart;
 import org.moskito.control.core.chart.ChartLine;
@@ -25,9 +26,11 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.List;
 
 /**
  * This action creates the main view data and redirects to the jsp.
@@ -68,7 +71,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		}
 		httpServletRequest.setAttribute("applications", applicationBeans);
 
-		ComponentCountByHealthStatusBean countByStatusBean = new ComponentCountByHealthStatusBean();
+		ComponentCountByHealthStatusBean countByStatusBean = createStatisticsBeans(httpServletRequest);
 		ComponentCountAndStatusByCategoryBean countByCategoryBean = new ComponentCountAndStatusByCategoryBean();
 
 		Application current = repository.getApplication(currentApplicationName);
@@ -86,6 +89,7 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 		LinkedList<ComponentBean> componentsBeta = new LinkedList<>();
 
 		String selectedCategory = getCurrentCategoryName(httpServletRequest);
+		List<HealthColor> selectedStatusFilter = getStatusFilter(httpServletRequest);
 
 		if (current!=null){
 			List<Component> components = current.getComponents();
@@ -110,12 +114,12 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			}
 
 			//preparing component holder.
-			Map<String, List<ComponentBean>> componentsByCategories= new HashMap<String, List<ComponentBean>>();
+			Map<String, List<ComponentBean>> filteredComponents= new HashMap<String, List<ComponentBean>>();
 			Map<String, CategoryBean> categoriesByCategoryNames = new HashMap<String, CategoryBean>();
 
 			for (CategoryBean categoryBean : categoryBeans){
 				if (!categoryBean.isAll()){
-					componentsByCategories.put(categoryBean.getName(), new ArrayList<ComponentBean>());
+					filteredComponents.put(categoryBean.getName(), new ArrayList<ComponentBean>());
 					categoriesByCategoryNames.put(categoryBean.getName(), categoryBean);
 				}
 			}
@@ -129,14 +133,16 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 				cBean.setCategoryName(c.getCategory());
 
 				componentsBeta.add(cBean);
-				if (selectedCategory.length()==0 || selectedCategory.equals(c.getCategory())){
-					countByStatusBean.addColor(c.getHealthColor());
-					componentsByCategories.get(c.getCategory()).add(cBean);
+				countByStatusBean.addColor(c.getHealthColor());
+
+				// Filtering components by status color and selected category
+				if (StringUtils.isEmpty(selectedCategory) || selectedCategory.equals(c.getCategory()) || selectedStatusFilter.contains(c.getHealthColor())) {
+					filteredComponents.get(c.getCategory()).add(cBean);
 				}
 			}
 
 			//now finally make component holder beans
-			for (Map.Entry<String,List<ComponentBean>> entry : componentsByCategories.entrySet()){
+			for (Map.Entry<String,List<ComponentBean>> entry : filteredComponents.entrySet()){
 				if (entry.getValue().size()==0)
 					continue;
 				ComponentHolderBean holderBean = new ComponentHolderBean();
@@ -235,6 +241,34 @@ public class MainViewAction extends BaseMoSKitoControlAction{
 			}
 
 		}catch(RuntimeException ignored){}
+	}
+
+	private List<ComponentBean> filterComponentsByStatus(List<ComponentBean> components, List<HealthColor> filter) {
+		if (filter == null || filter.isEmpty())
+			return components;
+
+		List<ComponentBean> filtered = new ArrayList<>();
+
+		for (ComponentBean component : components) {
+			for (HealthColor selectedColor : filter) {
+				if (selectedColor.getName().equals(component.getColor())) {
+					filtered.add(component);
+					break;
+				}
+			}
+		}
+
+		return filtered;
+	}
+
+	private ComponentCountByHealthStatusBean createStatisticsBeans(HttpServletRequest req) {
+		ComponentCountByHealthStatusBean statusBeans = new ComponentCountByHealthStatusBean();
+
+		for (HealthColor selectedStatus : getStatusFilter(req)) {
+			statusBeans.setSelected(selectedStatus);
+		}
+
+		return statusBeans;
 	}
 
 	void prepareCharts(Application current, HttpServletRequest httpServletRequest){

@@ -51,6 +51,20 @@ public class MoSKitoControlMappingsConfigurator implements ActionMappingsConfigu
 				new CommandRedirect("redirect", "main", 302)
 		);
 
+		actionMappings.addMapping("addStatusFilter", AddStatusFilterAction.class,
+				new CommandRedirect("redirect", "main", 302)
+		);
+		actionMappings.addMapping("removeStatusFilter", RemoveStatusFilterAction.class,
+				new CommandRedirect("redirect", "main", 302)
+		);
+
+		actionMappings.addMapping("clearStatusFilter", ClearStatusFilterAction.class,
+				new CommandRedirect("redirect", "main", 302)
+		);
+		actionMappings.addMapping("clearCategoryFilter", ClearCategoryFilterAction.class,
+				new CommandRedirect("redirect", "main", 302)
+		);
+
         actionMappings.addMapping("muteNotifications", MuteNotificationsAction.class,
                 new CommandRedirect("redirect", "main", 302)
         );

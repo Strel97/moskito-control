@@ -9,100 +9,120 @@ import org.moskito.control.core.HealthColor;
  * @since 02.04.13 00:10
  */
 public class ComponentCountByHealthStatusBean {
-	/**
-	 * Number of green components.
-	 */
-	private int green;
-	/**
-	 * Number of yellow components.
-	 */
-	private int yellow;
-	/**
-	 * Number of orange components. Warning, orange may be excluded from view.
-	 */
-	private int orange;
-	/**
-	 * Number of red components.
-	 */
-	private int red;
-	/**
-	 * Number of purple components.
-	 */
-	private int purple;
+    /**
+     * Number of green components.
+     */
+    private StatusStatisticsBean green;
+    /**
+     * Number of yellow components.
+     */
+    private StatusStatisticsBean yellow;
+    /**
+     * Number of orange components. Warning, orange may be excluded from view.
+     */
+    private StatusStatisticsBean orange;
+    /**
+     * Number of red components.
+     */
+    private StatusStatisticsBean red;
+    /**
+     * Number of purple components.
+     */
+    private StatusStatisticsBean purple;
 
-	/**
-	 * Number of components without status yet.
-	 */
-	private int none;
+    /**
+     * Number of components without status yet.
+     */
+    private StatusStatisticsBean none;
 
-	public int getGreen() {
-		return green;
-	}
 
-	public void setGreen(int green) {
-		this.green = green;
-	}
+    public ComponentCountByHealthStatusBean() {
+        green = new StatusStatisticsBean("green");
+        yellow = new StatusStatisticsBean("yellow");
+        orange = new StatusStatisticsBean("orange");
+        red = new StatusStatisticsBean("red");
+        purple = new StatusStatisticsBean("purple");
+        none = new StatusStatisticsBean("none");
+    }
 
-	public int getYellow() {
-		return yellow;
-	}
 
-	public void setYellow(int yellow) {
-		this.yellow = yellow;
-	}
+    public StatusStatisticsBean getGreen() {
+        return green;
+    }
 
-	public int getOrange() {
-		return orange;
-	}
+    public void setGreen(StatusStatisticsBean green) {
+        this.green = green;
+    }
 
-	public void setOrange(int orange) {
-		this.orange = orange;
-	}
+    public StatusStatisticsBean getYellow() {
+        return yellow;
+    }
 
-	public int getRed() {
-		return red;
-	}
+    public void setYellow(StatusStatisticsBean yellow) {
+        this.yellow = yellow;
+    }
 
-	public void setRed(int red) {
-		this.red = red;
-	}
+    public StatusStatisticsBean getOrange() {
+        return orange;
+    }
 
-	public int getPurple() {
-		return purple;
-	}
+    public void setOrange(StatusStatisticsBean orange) {
+        this.orange = orange;
+    }
 
-	public void setPurple(int purple) {
-		this.purple = purple;
-	}
+    public StatusStatisticsBean getRed() {
+        return red;
+    }
 
-	public int getNone() {
-		return none;
-	}
+    public void setRed(StatusStatisticsBean red) {
+        this.red = red;
+    }
 
-	public void setNone(int none) {
-		this.none = none;
-	}
+    public StatusStatisticsBean getPurple() {
+        return purple;
+    }
 
-	/**
-	 * Adds a new components color to the statistics.
-	 * @param color color to count.
-	 */
-	public void addColor(HealthColor color){
-		switch(color){
-			case GREEN:
-				green++; break;
-			case YELLOW:
-				yellow++; break;
-			case ORANGE:
-				orange++; break;
-			case RED:
-				red++; break;
-			case PURPLE:
-				purple++; break;
-			case NONE:
-				none++; break;
-			default:
-				throw new IllegalArgumentException("Unknown color "+color);
-		}
-	}
+    public void setPurple(StatusStatisticsBean purple) {
+        this.purple = purple;
+    }
+
+    public StatusStatisticsBean getNone() {
+        return none;
+    }
+
+    public void setNone(StatusStatisticsBean none) {
+        this.none = none;
+    }
+
+    /**
+     * Adds a new components color to the statistics.
+     *
+     * @param color color to count.
+     */
+    public void addColor(HealthColor color) {
+        getByColor(color).addComponent();
+    }
+
+    public void setSelected(HealthColor color) {
+        getByColor(color).setSelected(true);
+    }
+
+    private StatusStatisticsBean getByColor(HealthColor color) {
+        switch (color) {
+            case GREEN:
+                return green;
+            case YELLOW:
+                return yellow;
+            case ORANGE:
+                return orange;
+            case RED:
+                return red;
+            case PURPLE:
+                return purple;
+            case NONE:
+                return none;
+            default:
+                throw new IllegalArgumentException("Unknown color " + color);
+        }
+    }
 }

@@ -2,9 +2,13 @@ package org.moskito.control.ui.action;
 
 import net.anotheria.maf.action.Action;
 import net.anotheria.maf.action.ActionMapping;
+import org.apache.commons.lang.StringUtils;
+import org.moskito.control.core.HealthColor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Base action for all ui actions.
@@ -22,6 +26,10 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	 * Name of the currently selected category in the session.
 	 */
 	public static final String ATT_CATEGORY = "category";
+	/**
+	 * Name of the currently selected statistics color in the session.
+	 */
+	public static final String ATT_COLOR = "color";
 	/**
 	 * Name of the history state (on/off) in session.
 	 */
@@ -77,9 +85,6 @@ public abstract class BaseMoSKitoControlAction implements Action {
 	 */
 	protected void setCurrentApplicationName(HttpServletRequest req, String application){
 		req.getSession().setAttribute(ATT_APPLICATION, application);
-		//reset other variables.
-		req.getSession().removeAttribute(ATT_CATEGORY);
-
 	}
 
 	/**
@@ -102,6 +107,10 @@ public abstract class BaseMoSKitoControlAction implements Action {
 		req.getSession().setAttribute(ATT_CATEGORY, categoryName);
 	}
 
+	protected void clearCurrentCategoryName(HttpServletRequest req) {
+		req.getSession().removeAttribute(ATT_CATEGORY);
+	}
+
 	/**
 	 * Returns currently selected category name.
 	 * @param req
@@ -111,6 +120,42 @@ public abstract class BaseMoSKitoControlAction implements Action {
 		String category = (String)req.getSession().getAttribute(ATT_CATEGORY);
 		return category == null ? "" : category;
 	}
+
+	protected void addStatusFilter(HttpServletRequest req, HealthColor color) {
+	    if (color == null || req == null) return;
+
+	    List<HealthColor> colorFilter = getStatusFilter(req);
+        if (colorFilter == null)
+            colorFilter = new ArrayList<>();
+
+        colorFilter.add(color);
+        setStatusFilter(req, colorFilter);
+    }
+
+    protected void removeStatusFilter(HttpServletRequest req, HealthColor color) {
+        if (color == null || req == null) return;
+
+        List<HealthColor> colorFilter = getStatusFilter(req);
+        if (colorFilter == null)
+            colorFilter = new ArrayList<>();
+
+        colorFilter.remove(color);
+        setStatusFilter(req, colorFilter);
+    }
+
+    protected void clearStatusFilter(HttpServletRequest req) {
+		req.getSession().removeAttribute(ATT_COLOR);
+	}
+
+    protected List<HealthColor> getStatusFilter(HttpServletRequest req) {
+	    return req.getSession().getAttribute(ATT_COLOR) != null ?
+				(List<HealthColor>) req.getSession().getAttribute(ATT_COLOR) : new ArrayList<>();
+    }
+
+	protected void setStatusFilter(HttpServletRequest req, List<HealthColor> colorFilter) {
+        if (colorFilter == null || req == null) return;
+        req.getSession().setAttribute(ATT_COLOR, colorFilter);
+    }
 
 	/**
 	 * Returns true if the history is on for the current session.

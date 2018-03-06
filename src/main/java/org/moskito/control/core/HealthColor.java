@@ -12,27 +12,45 @@ public enum HealthColor {
 	/**
 	 * Green.
 	 */
-	GREEN,
+	GREEN("green"),
 	/**
 	 * Yellow.
 	 */
-	YELLOW,
+	YELLOW("yellow"),
 	/**
 	 * Orange.
 	 */
-	ORANGE,
+	ORANGE("orange"),
 	/**
 	 * Red.
 	 */
-	RED,
+	RED("red"),
 	/**
 	 * Purple.
 	 */
-	PURPLE,
+	PURPLE("purple"),
 	/**
 	 * None yet.
 	 */
-	NONE;
+	NONE("none");
+
+
+	private String name;
+
+
+	HealthColor(String name) {
+		this.name = name;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	/**
 	 * Returns true if my status is worse than the parameter color.
@@ -71,4 +89,13 @@ public enum HealthColor {
         }
     }
 
+    public static HealthColor forName(String name) {
+    	for (HealthColor color : values()) {
+    		if (color.name.equals(name)) {
+    			return color;
+			}
+		}
+
+		throw new IllegalArgumentException("Unknown color " + name);
+	}
 }
