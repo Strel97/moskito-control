@@ -20,20 +20,22 @@ export class HistoryStatusFilterPipe implements PipeTransform {
    * @param status Health status used as filter
    * @returns List of filtered history items
    */
-  transform(historyItems: HistoryItem[], status?: string): HistoryItem[] {
+  transform(historyItems: HistoryItem[], status?: string[]): HistoryItem[] {
     if (!historyItems) {
       return [];
     }
 
-    if (!status) {
+    if (!status || status.length === 0) {
       return historyItems;
     }
 
     const filteredHistoryItems = [];
 
     for (const item of historyItems) {
-      if (item.component && item.component.color === status) {
-        filteredHistoryItems.push(item);
+      for (const selectedStatus of status) {
+        if (item.component && item.component.color === selectedStatus) {
+          filteredHistoryItems.push(item);
+        }
       }
     }
 
