@@ -118,6 +118,12 @@ export class HttpService {
     });
   }
 
+  getComponentHistory(application: string, component: string): Observable<HistoryItem[]> {
+    return this.http.get(this.url + `rest/history/${application}/${component}`).map((resp) => {
+      return resp.json().historyItems;
+    });
+  }
+
   getApplicationCharts(application: string): Observable<Chart[]> {
     return this.http.get(this.url + 'rest/charts/points/' + application).map((resp) => {
       return resp.json().charts;

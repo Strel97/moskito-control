@@ -11,6 +11,7 @@ import { ChartService } from 'app/shared/services/chart.service';
 import { HttpService } from 'app/shared/services/http.service';
 import { MoskitoApplicationService } from 'app/shared/services/moskito-application.service';
 import { StatusService } from 'app/shared/services/status.service';
+import { HistoryItem } from "../../../shared/models/history-item";
 declare const SetupComponentsView: any;
 
 
@@ -35,6 +36,7 @@ export class MoskitoBetaComponentsWidgetComponent extends Widget implements OnIn
   thresholds: Threshold[];
   accumulatorNames: string[];
   accumulatorCharts: Chart[];
+  history: HistoryItem[];
 
   isLoading: boolean;
 
@@ -97,6 +99,8 @@ export class MoskitoBetaComponentsWidgetComponent extends Widget implements OnIn
             this.loadConnectorInformation( componentName );
           }
         }
+
+        this.loadComponentHistory( componentName );
       },
       ( error ) => {
         console.error('Can\'t obtain connector for component %s: %s', componentName, error);
@@ -144,6 +148,14 @@ export class MoskitoBetaComponentsWidgetComponent extends Widget implements OnIn
         }
       });
     }
+  }
+
+  public loadComponentHistory( componentName ) {
+    this.isLoading = true;
+    this.httpService.getComponentHistory(this.currentApplication.name, componentName).subscribe((history: HistoryItem[]) => {
+      this.history = history;
+      this.isLoading = false;
+    });
   }
 
   public toggleAccumulatorChart( event, componentName: string, accumulatorName: string ) {
